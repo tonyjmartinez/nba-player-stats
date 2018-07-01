@@ -1,5 +1,13 @@
 .Search {
     text-align: center;
+    cursor: pointer;
 }
 
+.Dropdown {
+    height: 30px;
+    line-height: 30px;
+}
 
+.DropItem {
+    margin-left: 1.5em;
+}
