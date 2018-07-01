@@ -4,6 +4,8 @@ import classes from './Search.css';
 import SearchIcon from 'react-icons/lib/md/search'
 class Search extends Component {
 
+
+
     constructor (props) {
         super(props)
             this.state = {
@@ -11,6 +13,27 @@ class Search extends Component {
 
             }
 
+    }
+
+    componentDidMount() {
+        let playerArr = [];
+        fetch('https://us-central1-nba-player-stats-e2659.cloudfunctions.net/fetch?year=2017-2018-regular&data=active_players.json', {
+                    mode: 'cors'
+                })
+        .then((response) => response.text())
+            .then((res) =>
+            {
+                let jsonData = JSON.parse(res);
+                console.log(jsonData.activeplayers.playerentry);
+                let players = jsonData.activeplayers.playerentry;
+
+                for (let i = 0; i < players.length; i++){
+                    let playerInfo = players[i].player;
+                    playerArr[i] = playerInfo.FirstName + ' ' + playerInfo.LastName;
+                }
+
+                console.log(playerArr);
+            });
     }
 
     render() {
@@ -26,9 +49,9 @@ class Search extends Component {
         }
 
         const wrapperStyle = {
-                width: '100%',
-                marginLeft: '1.5em',
-                textAlign: 'left'
+            width: '100%',
+            marginLeft: '1.5em',
+            textAlign: 'left'
         }
 
         const dropdownStyle = {
@@ -78,18 +101,18 @@ class Search extends Component {
                     style={highlighted ? dropdownStyleHL: dropdownStyle}
                     className={classes.Dropdown}
                     >
-                    <span className={classes.DropItem}>{item.label}</span>
-                    </div>
+                        <span className={classes.DropItem}>{item.label}</span>
+                        </div>
                 }
                 value={this.state.value}
                 onChange={e => this.setState({ value: e.target.value  })}
                 onSelect={value => this.setState({ value  })}
                 />
-                <SearchIcon style={searchStyle}
-                            size={40}
-                            color='white'
-                            onClick={() => {this.search.focus()}}
-                            />
+                    <SearchIcon style={searchStyle}
+                size={40}
+                color='white'
+                    onClick={() => {this.search.focus()}}
+                />
                     </div>
 
                     )
